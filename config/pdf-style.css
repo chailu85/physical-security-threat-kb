@@ -1,0 +1,593 @@
+/* =========================================================
+   PDF Style for 实体安防威胁行为知识库 v0.3
+   目标：
+   1. 避免中文竖排；
+   2. 适配多列表格；
+   3. 横向 A4 正式报告风格；
+   4. 兼容 VS Code Markdown PDF。
+   ========================================================= */
+
+
+/* ---------- 页面 ---------- */
+
+@page {
+  size: A4 landscape;
+  margin: 12mm 10mm 13mm 10mm;
+}
+
+html {
+  font-size: 10pt;
+}
+
+body {
+  font-family:
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Source Han Sans SC",
+    "PingFang SC",
+    "SimSun",
+    Arial,
+    sans-serif;
+
+  font-size: 9.8pt;
+  line-height: 1.5;
+  color: #222;
+  background: #ffffff;
+
+  /* 关键：不要让中文被强行逐字拆开 */
+  word-break: keep-all;
+  overflow-wrap: normal;
+  line-break: strict;
+
+  margin: 0;
+  padding: 0;
+}
+
+
+/* ---------- 正文 ---------- */
+
+p {
+  margin: 0 0 7pt 0;
+  line-height: 1.55;
+
+  /* 重要：不要用 justify，否则中文会被拉成“字 字 字” */
+  text-align: left;
+
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+strong {
+  font-weight: 700;
+}
+
+em {
+  color: #333;
+}
+
+a {
+  color: #1f4e79;
+  text-decoration: none;
+}
+
+hr {
+  border: none;
+  border-top: 0.8pt solid #cfd6df;
+  margin: 14pt 0;
+}
+
+
+/* ---------- 标题 ---------- */
+
+h1 {
+  font-size: 22pt;
+  line-height: 1.35;
+  text-align: center;
+  font-weight: 700;
+  margin: 0 0 18pt 0;
+  padding: 0;
+  color: #111827;
+
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+h2 {
+  font-size: 15pt;
+  line-height: 1.35;
+  font-weight: 700;
+  color: #111827;
+
+  margin: 0 0 10pt 0;
+  padding-bottom: 4pt;
+  border-bottom: 1pt solid #9aa4b2;
+
+  page-break-before: always;
+  break-before: page;
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+h3 {
+  font-size: 12pt;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #1f2937;
+
+  margin: 14pt 0 7pt 0;
+  padding-left: 6pt;
+  border-left: 3pt solid #9aa4b2;
+
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+h4 {
+  font-size: 10.8pt;
+  line-height: 1.4;
+  font-weight: 700;
+  color: #263238;
+
+  margin: 10pt 0 5pt 0;
+
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+h5,
+h6 {
+  font-size: 10pt;
+  font-weight: 700;
+  margin: 8pt 0 4pt 0;
+
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+
+/* 避免标题孤立在页尾 */
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h2 + table,
+h3 + table,
+h4 + table {
+  page-break-before: avoid;
+  break-before: avoid;
+}
+
+
+/* ---------- 列表 ---------- */
+
+ul,
+ol {
+  margin: 4pt 0 8pt 0;
+  padding-left: 19pt;
+}
+
+li {
+  margin: 2pt 0;
+  line-height: 1.48;
+  text-align: left;
+
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+li p {
+  margin: 0 0 4pt 0;
+}
+
+
+/* =========================================================
+   表格：核心优化
+   ========================================================= */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+
+  font-size: 7.8pt;
+  line-height: 1.34;
+
+  margin: 8pt 0 12pt 0;
+
+  page-break-inside: auto;
+  break-inside: auto;
+}
+
+thead {
+  display: table-header-group;
+}
+
+tbody {
+  display: table-row-group;
+}
+
+tr {
+  page-break-inside: avoid;
+  break-inside: avoid;
+  page-break-after: auto;
+}
+
+th,
+td {
+  border: 0.55pt solid #b9c0c8;
+  padding: 3.6pt 4.2pt;
+  vertical-align: top;
+
+  /* 关键：禁止中文逐字竖排 */
+  word-break: keep-all;
+  overflow-wrap: normal;
+  line-break: strict;
+  white-space: normal;
+
+  text-align: left;
+}
+
+th {
+  background: #f3f5f7;
+  color: #111827;
+  font-weight: 700;
+  text-align: center;
+}
+
+
+/* 第一列一般是编号，尽量保持一行 */
+td:first-child,
+th:first-child {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+
+  font-family:
+    Consolas,
+    "Cascadia Mono",
+    "Courier New",
+    "Microsoft YaHei",
+    monospace;
+
+  font-size: 7.5pt;
+  text-align: center;
+}
+
+
+/* 第二列常常是中文名称：绝对不要让它变成竖排 */
+td:nth-child(2),
+th:nth-child(2) {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  white-space: normal;
+
+  font-weight: 600;
+}
+
+
+/* 编号类、英文类内容保持可读 */
+td code,
+th code {
+  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+
+/* 表格中的英文长词允许更自然换行，但不拆中文 */
+td {
+  hyphens: none;
+}
+
+
+/* ---------- 对 6 列以上宽表格的通用压缩 ---------- */
+
+table th:nth-child(n+5),
+table td:nth-child(n+5) {
+  font-size: 7.4pt;
+  line-height: 1.28;
+}
+
+
+/* ---------- 对特别窄的“等级/分数/代码”列做保护 ---------- */
+
+td:nth-child(1),
+td:nth-child(3),
+td:nth-child(4),
+th:nth-child(1),
+th:nth-child(3),
+th:nth-child(4) {
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+
+/* ---------- 避免“高 / 中 / 低”被竖排 ---------- */
+
+td:last-child,
+th:last-child {
+  word-break: keep-all;
+  overflow-wrap: normal;
+}
+
+
+/* ---------- 如果你手工给宽表格包 div，可使用这些类 ---------- */
+
+.wide-table table {
+  font-size: 7.2pt;
+  line-height: 1.25;
+}
+
+.wide-table th,
+.wide-table td {
+  padding: 3pt 3.5pt;
+}
+
+.compact-table table {
+  font-size: 7.4pt;
+  line-height: 1.25;
+}
+
+.compact-table th,
+.compact-table td {
+  padding: 3pt 3.5pt;
+}
+
+.no-vertical,
+.no-vertical td,
+.no-vertical th {
+  word-break: keep-all;
+  overflow-wrap: normal;
+  line-break: strict;
+}
+
+
+/* =========================================================
+   代码块 / JSON 附录
+   ========================================================= */
+
+pre {
+  white-space: pre-wrap;
+
+  /* JSON 中英文都允许在必要时换行，但不影响正文中文 */
+  word-break: break-word;
+  overflow-wrap: anywhere;
+
+  font-family:
+    Consolas,
+    "Cascadia Mono",
+    "Courier New",
+    monospace;
+
+  font-size: 8pt;
+  line-height: 1.42;
+
+  background: #f7f8fa;
+  border: 0.6pt solid #d9dde3;
+  border-radius: 4pt;
+
+  padding: 7pt 9pt;
+  margin: 7pt 0 12pt 0;
+
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+code {
+  font-family:
+    Consolas,
+    "Cascadia Mono",
+    "Courier New",
+    monospace;
+
+  font-size: 8pt;
+  color: #111827;
+  background: #f6f7f9;
+  border-radius: 2pt;
+  padding: 0.4pt 1.8pt;
+
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+pre code {
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+}
+
+
+/* ---------- 引用块 ---------- */
+
+blockquote {
+  margin: 8pt 0 10pt 0;
+  padding: 6pt 9pt;
+  border-left: 3pt solid #9aa4b2;
+  background: #f7f8fa;
+  color: #374151;
+  line-height: 1.5;
+
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+blockquote p {
+  margin: 0 0 4pt 0;
+}
+
+
+/* ---------- 图片 ---------- */
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 8pt auto;
+
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+figure {
+  margin: 8pt 0 12pt 0;
+
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+figcaption {
+  text-align: center;
+  font-size: 8.5pt;
+  color: #555;
+  margin-top: 3pt;
+}
+
+
+/* ---------- 封面，可选 ---------- */
+
+.cover {
+  text-align: center;
+  padding-top: 65pt;
+  page-break-after: always;
+}
+
+.cover h1 {
+  font-size: 23pt;
+  line-height: 1.35;
+  margin: 0 0 14pt 0;
+  text-align: center;
+  border: none;
+}
+
+.cover h2 {
+  font-size: 16pt;
+  font-weight: 500;
+  margin: 0 0 24pt 0;
+  border: none;
+  padding: 0;
+
+  page-break-before: auto;
+  break-before: auto;
+}
+
+.cover p {
+  font-size: 10pt;
+  line-height: 1.7;
+  text-align: center;
+  margin: 7pt 0;
+}
+
+.cover-note {
+  margin-top: 32pt;
+  font-size: 9.5pt;
+  color: #555;
+  line-height: 1.6;
+}
+
+
+/* ---------- 提示块 ---------- */
+
+.note,
+.tip,
+.warning {
+  margin: 8pt 0 10pt 0;
+  padding: 7pt 9pt;
+  border-radius: 4pt;
+  line-height: 1.5;
+
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.note {
+  background: #f7f8fa;
+  border-left: 3pt solid #9aa4b2;
+}
+
+.tip {
+  background: #f3f7f3;
+  border-left: 3pt solid #7aa37a;
+}
+
+.warning {
+  background: #fff8ed;
+  border-left: 3pt solid #d19a3a;
+}
+
+
+/* ---------- 分页控制 ---------- */
+
+.page-break {
+  page-break-before: always;
+  break-before: page;
+}
+
+.no-break {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.keep-with-next {
+  page-break-after: avoid;
+  break-after: avoid;
+}
+
+p,
+li {
+  orphans: 2;
+  widows: 2;
+}
+
+
+/* ---------- 附录 ---------- */
+
+.appendix h2 {
+  color: #1f2937;
+  border-bottom: 1pt solid #6b7280;
+}
+
+.appendix h3 {
+  border-left-color: #6b7280;
+}
+
+.appendix pre {
+  background: #f8fafc;
+  border-color: #cfd6df;
+}
+
+
+/* ---------- 打印优化 ---------- */
+
+@media print {
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  table {
+    page-break-inside: auto;
+    break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  pre,
+  blockquote,
+  img {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  h2 {
+    page-break-before: always;
+    break-before: page;
+  }
+
+  .cover h2 {
+    page-break-before: auto;
+    break-before: auto;
+  }
+}
